@@ -35,11 +35,32 @@
             naverNews = JSON.parse(event.data);
             console.log(naverNews);
 
-            $("#news-box").append("<tr>");
-            $("#news-box").append("<td>" + naverNews.company + "</td>");
-            $("#news-box").append("<td>" + naverNews.title + "</td>");
-            $("#news-box").append("<td>" + naverNews.createdAt + "</td>");
-            $("#news-box").append("</tr>");
+            let convertCreatedAt = new Date(naverNews.createdAt)
+            console.log(convertCreatedAt);
+
+            function get_date_str(date)
+            {
+                var sYear = date.getFullYear();
+                var sMonth = date.getMonth() + 1;
+                var sDate = date.getDate();
+                var sHours = date.getHours();
+                var sMinutes = date.getMinutes();
+                var second = date.getSeconds();
+
+                var ap = "오전";
+                if (sHours   > 11) { ap = "오후";             }
+                if (sHours   > 12) { sHours = sHours - 12;      }
+                if (sHours   == 0) { sHours = 12;             }
+                if (sHours   < 10) { sHours   = "0" + sHours;   }
+                if (sMinutes < 10) { sMinutes = "0" + sMinutes; }
+                if (second < 10) { second = "0" + second; }
+
+                sMonth = sMonth > 9 ? sMonth : "0" + sMonth;
+                sDate  = sDate > 9 ? sDate : "0" + sDate;
+                return sYear + "-" + sMonth + "-" + sDate + " " + ap + " " + sHours + "시" + sMinutes + "분";
+            }
+
+            $("#news-box").append("<tr> <td>" + naverNews.company + "</td> <td>" + naverNews.title + "</td> <td>" +get_date_str(convertCreatedAt) + "</td> </tr>");
         }
     </script>
 </body>
